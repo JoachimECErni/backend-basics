@@ -20,7 +20,9 @@ namespace CRUDApplication.Common
         Canada,
 
         [EnumMember(Value = "FR")]
-        France
+        France,
+
+        Unknown
     }
 
 }

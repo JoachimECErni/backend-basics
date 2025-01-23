@@ -10,6 +10,7 @@ using CRUDApplication.Domain.Entities;
 using AutoMapper;
 using CRUDApplication.Repositories;
 using CRUDApplication.Domain.Contracts;
+using CRUDApplication.Common;
 
 namespace CRUDApplication.Controllers
 {
@@ -45,7 +46,8 @@ namespace CRUDApplication.Controllers
         [HttpPost("company")]
         public async Task<IActionResult> CreateCompany([FromBody] CreateCompany createCompany)
         {
-            Console.WriteLine(createCompany.CountryOfOrigin);
+            if (createCompany.CountryOfOrigin == countryOfOrigin.Unknown)
+                return BadRequest(new { message = "Invalid Country Code" });
             var company = _mapper.Map<Company>(createCompany);
             var createdCompany = await _context.Add(company);
             var companyDto = _mapper.Map<CompanyDto>(createdCompany);

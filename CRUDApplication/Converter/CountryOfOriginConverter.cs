@@ -18,7 +18,7 @@ namespace CRUDApplication.Converter
                 "GB" => countryOfOrigin.UnitedKingdom,
                 "CA" => countryOfOrigin.Canada,
                 "FR" => countryOfOrigin.France,
-                _ => throw new ArgumentException($"Invalid country code: {value}")
+                _ => countryOfOrigin.Unknown
             };
         }
 
@@ -32,7 +32,7 @@ namespace CRUDApplication.Converter
                 countryOfOrigin.UnitedKingdom => "GB",
                 countryOfOrigin.Canada => "CA",
                 countryOfOrigin.France => "FR",
-                _ => throw new ArgumentException($"Invalid country code: {value}")
+                _ => "Unkown"
             };
 
             writer.WriteStringValue(stringValue);
