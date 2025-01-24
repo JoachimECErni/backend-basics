@@ -32,7 +32,7 @@ namespace CRUDApplication.Converter
                 countryOfOrigin.UnitedKingdom => "GB",
                 countryOfOrigin.Canada => "CA",
                 countryOfOrigin.France => "FR",
-                _ => "Unkown"
+                _ => "Unknown"
             };
 
             writer.WriteStringValue(stringValue);
