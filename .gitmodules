@@ -1,0 +1,3 @@
+[submodule "error-handling"]
+	path = error-handling
+	url = https://github.com/JoachimECErni/csharp-quiz.git
