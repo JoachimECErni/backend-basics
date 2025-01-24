@@ -38,7 +38,7 @@ namespace CRUDApplication.Controllers
         [HttpGet("company/{id}")]
         public async Task<IActionResult> GetCompany(Guid id)
         {
-            var company = await _context.Get(id);
+            var company = await _context.Get(id, c => c.Games);
             var companyDto = _mapper.Map<CompanyDto>(company);
             return Ok(companyDto);
         }
