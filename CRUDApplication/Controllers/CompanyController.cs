@@ -57,6 +57,8 @@ namespace CRUDApplication.Controllers
         [HttpPut("company")]
         public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] UpdateCompany updateCompany)
         {
+            if (updateCompany.CountryOfOrigin == countryOfOrigin.Unknown)
+                return BadRequest(new { message = "Invalid Country Code" });
             var company = await _context.Get(id);
             if (company == null)
                 return NotFound();
