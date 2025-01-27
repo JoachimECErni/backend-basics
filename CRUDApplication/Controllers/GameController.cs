@@ -4,6 +4,7 @@ using CRUDApplication.Domain.Entities;
 using CRUDApplication.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CRUDApplication.Controllers
 {
     [ApiController]
@@ -22,48 +23,93 @@ namespace CRUDApplication.Controllers
         [HttpGet("game")]
         public async Task<IActionResult> GetGames()
         {
-            var games = await _context.GetAll(record => record.Company);
-            var gamesDto = _mapper.Map<List<GameDto>>(games);
-            return Ok(gamesDto);
+            try
+            {
+                var games = await _context.GetAll(record => record.Company);
+                var gamesDto = _mapper.Map<List<GameDto>>(games);
+                return Ok(gamesDto);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured: " + e.Message);
+                Console.Error.WriteLine("Call stack: " + e.StackTrace);
+                return StatusCode(500, "An Internal Server error occured");
+            }
         }
 
         [HttpGet("game/{id}")]
         public async Task<IActionResult> GetGame(Guid id)
         {
-            var game = await _context.Get(id);
-            var gameDto = _mapper.Map<GameDto>(game);
-            return Ok(gameDto);
+            try
+            {
+                var game = await _context.Get(id);
+                var gameDto = _mapper.Map<GameDto>(game);
+                return Ok(gameDto);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured: " + e.Message);
+                Console.Error.WriteLine("Call stack: " + e.StackTrace);
+                return StatusCode(500, "An Internal Server error occured");
+            }
         }
 
         [HttpPost("game")]
         public async Task<IActionResult> CreateGame([FromBody] CreateGame createGame)
         {
-            var game = _mapper.Map<Game>(createGame);
-            var createdGame= await _context.Add(game);
-            var gameDto = _mapper.Map<GameDto>(createdGame);
-            return CreatedAtAction(nameof(GetGame), new { id = gameDto.Id }, gameDto);
+            try
+            {
+                var game = _mapper.Map<Game>(createGame);
+                var createdGame= await _context.Add(game);
+                var gameDto = _mapper.Map<GameDto>(createdGame);
+                return CreatedAtAction(nameof(GetGame), new { id = gameDto.Id }, gameDto);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured: " + e.Message);
+                Console.Error.WriteLine("Call stack: " + e.StackTrace);
+                return StatusCode(500, "An Internal Server error occured");
+            }
         }
 
         [HttpPut("game")]
         public async Task<IActionResult> UpdateGame(Guid id, [FromBody] UpdateGame updateGame)
         {
-            var game = await _context.Get(id);
-            if (game == null)
-                return NotFound();
-            _mapper.Map(updateGame, game);
-            var updatedGame = await _context.Update(game);
-            var gameDto = _mapper.Map<GameDto>(updatedGame);
-            return Ok(gameDto);
+            try
+            {
+                var game = await _context.Get(id);
+                if (game == null)
+                    return NotFound();
+                _mapper.Map(updateGame, game);
+                var updatedGame = await _context.Update(game);
+                var gameDto = _mapper.Map<GameDto>(updatedGame);
+                return Ok(gameDto);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured: " + e.Message);
+                Console.Error.WriteLine("Call stack: " + e.StackTrace);
+                return StatusCode(500, "An Internal Server error occured");
+            }
         }
 
         [HttpDelete("game")]
         public async Task<IActionResult> DeleteGame(Guid id)
         {
-            var game = await _context.Delete(id);
-            if (game == null)
-                return NotFound();
-            var gameDto = _mapper.Map<GameDto>(game);
-            return Ok(gameDto);
+            try
+            {
+                var game = await _context.Delete(id);
+                if (game == null)
+                    return NotFound();
+                var gameDto = _mapper.Map<GameDto>(game);
+                return Ok(gameDto);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Error occured: " + e.Message);
+                Console.Error.WriteLine("Call stack: " + e.StackTrace);
+                return StatusCode(500, "An Internal Server error occured");
+            }
         }
     }
 }
