@@ -12,12 +12,14 @@ namespace CRUDApplication.Controllers
     public class GameController : ControllerBase
     {
         private readonly IBaseRepository<Game> _context;
+        private readonly IBaseRepository<Company> _Companycontext;
         private readonly IMapper _mapper;
 
-        public GameController(IBaseRepository<Game> context, IMapper mapper)
+        public GameController(IBaseRepository<Game> context, IMapper mapper, IBaseRepository<Company> companycontext)
         {
             _context = context;
             _mapper = mapper;
+            _Companycontext = companycontext;
         }
 
         [HttpGet("game")]
@@ -59,6 +61,8 @@ namespace CRUDApplication.Controllers
         {
             try
             {
+                if (await _Companycontext.Get(createGame.CompanyId) == null)
+                    return NotFound("Company ID Doesn't exist");
                 var game = _mapper.Map<Game>(createGame);
                 var createdGame= await _context.Add(game);
                 var gameDto = _mapper.Map<GameDto>(createdGame);
